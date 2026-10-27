@@ -71,7 +71,7 @@
           rio.unobserve(e.target);
         });
       }, { rootMargin: "0px 0px -8% 0px", threshold: 0.1 });
-      document.querySelectorAll(".label, .about, .card, .work, .review, .faq-item, .contact h2, .contact-item")
+      document.querySelectorAll(".label, .about-photo, .about, .card, .work, .review, .faq-item, .contact h2, .contact-item")
         .forEach(function (el) { el.classList.add("reveal"); rio.observe(el); });
     }
 
