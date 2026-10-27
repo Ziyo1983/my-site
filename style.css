@@ -92,7 +92,7 @@ header .wrap { display: flex; align-items: center; gap: 12px; }
 
 /* bo'limga o'tganda sarlavha menyu ostida qolib ketmasin */
 section[id] { scroll-margin-top: 72px; }
-.logo-mark { width: 34px; height: 34px; flex: none; color: var(--accent); }
+.logo-mark { display: block; width: auto; height: 36px; flex: none; border-radius: 8px; }
 .logo-text { font-weight: 800; letter-spacing: .18em; font-size: 15px; }
 .logo-text small {
   display: block; font-weight: 500; letter-spacing: .22em;
@@ -352,7 +352,7 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
 @media (max-width: 720px) {
   header { padding: 8px 0 2px; }
   header .wrap { flex-wrap: wrap; row-gap: 0; }
-  .logo-mark { width: 30px; height: 30px; }
+  .logo-mark { height: 30px; }
   .theme-toggle, .nav + .theme-toggle { margin-left: auto; width: 36px; height: 36px; }
   .theme-toggle svg { width: 16px; height: 16px; }
   /* menyu logotip ostida alohida qator, gorizontal siljiydi; o'ng chetdagi xiralik "yana bor" deb bildiradi */
