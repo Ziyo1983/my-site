@@ -31,6 +31,37 @@
       setTimeout(function () { root.classList.remove("theme-anim"); }, 400);
     });
 
+    // Mavzu boshqa oynada (masalan, telefon oynasi ichida) o'zgarsa, shu oynada ham yangilanadi
+    window.addEventListener("storage", function (e) {
+      if (e.key === "theme" && e.newValue) apply(e.newValue);
+    });
+
+    // Mobil ko'rinish: telefon oynasi. Sayt nusxasi (iframe) faqat birinchi ochilganda yuklanadi.
+    // iframe ichidagi nusxada bu tugma ishlamaydi (window.top tekshiruvi).
+    var mvOpen = document.getElementById("mv-open");
+    var mv = document.getElementById("mv-modal");
+    if (mvOpen && mv && window.self === window.top) {
+      var mvFrame = mv.querySelector(".mv-frame");
+      var mvPrev = null;
+      var mvShow = function () {
+        if (!mvFrame.getAttribute("src")) mvFrame.setAttribute("src", "index.html");
+        mvPrev = document.activeElement;
+        mv.hidden = false;
+        mv.classList.add("is-open");
+        root.classList.add("mv-lock");
+        mv.querySelector(".mv-close").focus();
+      };
+      var mvHide = function () {
+        mv.hidden = true;
+        mv.classList.remove("is-open");
+        root.classList.remove("mv-lock");
+        if (mvPrev && mvPrev.focus) mvPrev.focus();
+      };
+      mvOpen.addEventListener("click", mvShow);
+      mv.addEventListener("click", function (e) { if (e.target.closest("[data-close]")) mvHide(); });
+      document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !mv.hidden) mvHide(); });
+    }
+
     // Elementlar ekranga kirganda bir marta yumshoq ko'tarilib chiqadi; birga kirganlar 60 ms oraliqda
     if (reveal) {
       var rio = new IntersectionObserver(function (entries) {

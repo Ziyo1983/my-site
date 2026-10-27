@@ -11,6 +11,8 @@
   --glow: rgba(255,74,43,.16);
   --header-bg: rgba(11,11,12,.8);
   --on-photo-muted: rgba(242,242,240,.74);
+  --mv-backdrop: rgba(5,5,6,.72);
+  --mv-bezel: #1a1a1d;
   --ph-a: #1a1a1d;
   /* animatsiya: yengil va tez — bir joydan sozlanadi */
   --t-hero: .5s;
@@ -34,6 +36,8 @@
   --glow: rgba(217,52,26,.10);
   --header-bg: rgba(244,243,240,.82);
   --on-photo-muted: rgba(242,242,240,.74);
+  --mv-backdrop: rgba(20,20,22,.55);
+  --mv-bezel: #2a2a2e;
   --ph-a: #e9e7e2;
   --ph-b: #d9d6cf;
 }
@@ -271,6 +275,50 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
 .faq-item p a { color: var(--accent); font-weight: 600; }
 .faq-item p a:hover { color: var(--accent-hover); }
 
+/* mobil ko'rinish: chetdagi tugma + telefon oynasi (faqat keng ekranda; telefonda ma'nosi yo'q) */
+.mv-open, .mv { display: none; }
+@media (min-width: 1024px) {
+  .mv-open {
+    position: fixed; right: 0; top: 50%; transform: translateY(-50%); z-index: 40;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    padding: 14px 10px; cursor: pointer;
+    background: var(--surface); color: var(--text);
+    border: 1px solid var(--line); border-right: 0; border-radius: 14px 0 0 14px;
+    font: 600 12px/1 "Manrope", system-ui, sans-serif; letter-spacing: .14em; text-transform: uppercase;
+    transition: border-color .2s, color .2s;
+  }
+  .mv-open:hover { border-color: var(--accent); color: var(--accent); }
+  .mv-open:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .mv-open svg { width: 18px; height: 18px; }
+  .mv-open span { writing-mode: vertical-rl; }
+
+  .mv { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; }
+  .mv[hidden] { display: none; }
+  .mv-backdrop { position: absolute; inset: 0; background: var(--mv-backdrop); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+  .mv-phone {
+    position: relative; padding: 10px; border-radius: 44px;
+    background: var(--mv-bezel); border: 1px solid var(--line);
+    box-shadow: 0 24px 80px rgba(0,0,0,.55);
+  }
+  /* kengligi 375px — saytning mobil dizayni yoqiladi; past ekranda faqat balandligi kamayadi */
+  .mv-frame { display: block; width: 375px; height: min(812px, calc(100vh - 96px)); border: 0; border-radius: 34px; background: var(--bg); }
+  .mv-close {
+    position: absolute; top: -4px; right: -56px; width: 40px; height: 40px;
+    display: grid; place-items: center; cursor: pointer;
+    background: var(--surface); color: var(--text);
+    border: 1px solid var(--line); border-radius: 50%;
+    transition: border-color .2s;
+  }
+  .mv-close:hover { border-color: var(--accent); }
+  .mv-close:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .mv-close svg { width: 16px; height: 16px; }
+  .mv.is-open .mv-backdrop { animation: mv-fade var(--t-accordion) ease both; }
+  .mv.is-open .mv-phone { animation: mv-in var(--t-accordion) var(--ease) backwards; }
+  html.mv-lock { overflow: hidden; }   /* faqat oyna ko'rinib turganda scroll qulflanadi */
+}
+@keyframes mv-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes mv-in { from { opacity: 0; transform: translateY(var(--rise)) scale(.98); } to { opacity: 1; transform: none; } }
+
 /* light theme: soften the dark photo into the light page */
 :root[data-theme="light"] .car-photo { opacity: .32; mix-blend-mode: multiply; filter: brightness(1.6) contrast(1.1); }
 
@@ -292,6 +340,8 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
   .reveal { opacity: 1 !important; animation: none !important; }
   .btn, .card, .work, .review, .contact-item, .faq-item, .faq-item summary::after { transition: none; }
   .faq-item::details-content { transition: none; }
+  .mv.is-open .mv-backdrop, .mv.is-open .mv-phone { animation: none; }
+  .mv-open, .mv-close { transition: none; }
 }
 
 @media (max-width: 720px) {

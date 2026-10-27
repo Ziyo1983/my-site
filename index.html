@@ -199,5 +199,20 @@
   </div>
 </footer>
 
+<!-- Mobil ko'rinish: keng ekranda chetdagi tugma saytni telefon oynasida ochadi (iframe birinchi ochilganda yuklanadi) -->
+<button class="mv-open" id="mv-open" type="button" aria-haspopup="dialog" aria-controls="mv-modal">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg>
+  <span>Mobil ko'rinish</span>
+</button>
+<div class="mv" id="mv-modal" role="dialog" aria-modal="true" aria-label="Saytning mobil ko'rinishi" hidden>
+  <div class="mv-backdrop" data-close></div>
+  <div class="mv-phone">
+    <button class="mv-close" type="button" data-close aria-label="Yopish">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <iframe class="mv-frame" title="Saytning telefon ko'rinishi"></iframe>
+  </div>
+</div>
+
 </body>
 </html>
