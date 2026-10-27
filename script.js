@@ -5,6 +5,11 @@
   try { theme = localStorage.getItem("theme") || "dark"; } catch (e) {}
   root.setAttribute("data-theme", theme);
 
+  // Scroll'da paydo bo'lish: harakat cheklanmagan va brauzer qo'llasagina yoqiladi, aks holda hammasi ko'rinib turadi
+  var reveal = "IntersectionObserver" in window &&
+    !(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+  if (reveal) root.classList.add("js-reveal");
+
   function apply(t) {
     root.setAttribute("data-theme", t);
     var meta = document.querySelector('meta[name="theme-color"]');
@@ -25,6 +30,21 @@
       try { localStorage.setItem("theme", next); } catch (e) {}
       setTimeout(function () { root.classList.remove("theme-anim"); }, 400);
     });
+
+    // Elementlar ekranga kirganda bir marta yumshoq ko'tarilib chiqadi; birga kirganlar 60 ms oraliqda
+    if (reveal) {
+      var rio = new IntersectionObserver(function (entries) {
+        var n = 0;
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          e.target.style.setProperty("--d", Math.min(n++, 4) * 60 + "ms");
+          e.target.classList.add("in");
+          rio.unobserve(e.target);
+        });
+      }, { rootMargin: "0px 0px -8% 0px", threshold: 0.1 });
+      document.querySelectorAll(".label, .about, .card, .work, .review, .faq-item, .contact h2, .contact-item")
+        .forEach(function (el) { el.classList.add("reveal"); rio.observe(el); });
+    }
 
     // Menyu: ekrandagi bo'limga mos havolani urg'u rangida ko'rsatish
     var links = document.querySelectorAll(".nav a[href^='#']");

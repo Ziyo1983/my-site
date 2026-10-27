@@ -12,6 +12,13 @@
   --header-bg: rgba(11,11,12,.8);
   --on-photo-muted: rgba(242,242,240,.74);
   --ph-a: #1a1a1d;
+  /* animatsiya: yengil va tez — bir joydan sozlanadi */
+  --t-hero: .5s;
+  --t-reveal: .45s;
+  --t-accordion: .25s;
+  --rise: 16px;
+  --lift: -3px;
+  --ease: cubic-bezier(.2,.7,.2,1);
   --ph-b: #0f0f11;
 }
 :root[data-theme="light"] {
@@ -170,7 +177,7 @@ section { padding: 72px 0; border-top: 1px solid var(--line); }
   border-radius: 18px; padding: 32px 28px 36px;
   transition: border-color .25s, transform .25s;
 }
-.card:hover { border-color: var(--accent); transform: translateY(-4px); }
+.card:hover { border-color: var(--accent); }
 .card .n { font-size: 13px; color: var(--accent); font-weight: 600; letter-spacing: .1em; }
 .card h3 { font-size: 24px; font-weight: 800; letter-spacing: -.01em; margin: 56px 0 10px; }
 .card p { color: var(--muted); font-size: 15px; }
@@ -185,7 +192,7 @@ section { padding: 72px 0; border-top: 1px solid var(--line); }
   border-radius: 18px; padding: 24px 28px;
   transition: border-color .25s, transform .25s;
 }
-.contact-item:hover { border-color: var(--accent); transform: translateY(-3px); }
+.contact-item:hover { border-color: var(--accent); }
 .contact-item span { font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
 .contact-item strong { font-size: 22px; font-weight: 600; }
 
@@ -203,7 +210,7 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
     linear-gradient(160deg, var(--ph-a), var(--ph-b));
   transition: border-color .25s, transform .25s;
 }
-.work:hover { border-color: var(--accent); transform: translateY(-4px); }
+.work:hover { border-color: var(--accent); }
 .work figcaption { position: absolute; left: 24px; right: 24px; bottom: 22px; display: flex; flex-direction: column; gap: 2px; }
 .work figcaption span { font-size: 12px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: #ff6246; }
 .work figcaption strong { font-size: 18px; font-weight: 600; color: #f2f2f0; }
@@ -221,17 +228,24 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
   background: var(--surface); border: 1px solid var(--line);
   border-radius: 18px; padding: 32px 28px;
   display: flex; flex-direction: column; justify-content: space-between; gap: 32px;
+  transition: border-color .25s, transform .25s;
 }
+.review:hover { border-color: var(--accent); }
 .review::before { content: "\201C"; font-size: 56px; line-height: .6; color: var(--accent); font-weight: 800; }
 .review p { font-size: 16px; line-height: 1.6; }
 .review footer { display: flex; flex-direction: column; padding: 0; border: 0; color: var(--text); font-size: 14px; }
 .review footer span { color: var(--muted); font-size: 13px; }
 
+/* kartalar ustiga sichqoncha kelganda yengil ko'tarilish (sensorli ekranda yo'q) */
+@media (hover: hover) {
+  .card:hover, .work:hover, .review:hover, .contact-item:hover, .faq-item:hover { transform: translateY(var(--lift)); }
+}
+
 /* faq */
 .faq { display: grid; gap: 12px; max-width: 720px; }
 .faq-item {
   background: var(--surface); border: 1px solid var(--line);
-  border-radius: 18px; transition: border-color .25s;
+  border-radius: 18px; transition: border-color .25s, transform .25s;
 }
 .faq-item:hover, .faq-item[open] { border-color: var(--accent); }
 .faq-item summary {
@@ -240,6 +254,13 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
   padding: 22px 28px; font-size: 17px; font-weight: 600;
 }
 .faq-item summary::-webkit-details-marker { display: none; }
+/* ochilish/yopilish balandlik animatsiyasi; eski brauzerlarda javob oddiy ochiladi */
+.faq-item { interpolate-size: allow-keywords; }
+.faq-item::details-content {
+  block-size: 0; overflow: hidden;
+  transition: block-size var(--t-accordion) var(--ease), content-visibility var(--t-accordion) allow-discrete;
+}
+.faq-item[open]::details-content { block-size: auto; }
 .faq-item summary::after {
   content: "+"; flex: none; font-size: 24px; line-height: 1; font-weight: 500;
   color: var(--accent); transition: transform .25s;
@@ -254,15 +275,23 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
 :root[data-theme="light"] .car-photo { opacity: .32; mix-blend-mode: multiply; filter: brightness(1.6) contrast(1.1); }
 
 /* entrance */
-@keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
-.hero .wrap > * { animation: rise .8s cubic-bezier(.2,.7,.2,1) both; }
-.hero .wrap > *:nth-child(2) { animation-delay: .08s; }
-.hero .wrap > *:nth-child(3) { animation-delay: .16s; }
-.hero .wrap > *:nth-child(4) { animation-delay: .24s; }
+@keyframes rise { from { opacity: 0; transform: translateY(var(--rise)); } to { opacity: 1; transform: none; } }
+.hero .wrap > * { animation: rise var(--t-hero) var(--ease) both; }
+.hero .wrap > *:nth-child(2) { animation-delay: .06s; }
+.hero .wrap > *:nth-child(3) { animation-delay: .12s; }
+.hero .wrap > *:nth-child(4) { animation-delay: .18s; }
+
+/* scroll'da paydo bo'lish: script.js elementlarga .reveal qo'shadi, ekranga kirganda .in.
+   .js-reveal sinfi faqat JS ishlasa va harakat cheklanmagan bo'lsa qo'yiladi — aks holda hammasi ko'rinib turadi.
+   "backwards" — animatsiyadan keyin transform bo'sh qoladi, hover ko'tarilishi to'qnashmaydi. */
+.js-reveal .reveal { opacity: 0; }
+.js-reveal .reveal.in { opacity: 1; animation: rise var(--t-reveal) var(--ease) backwards; animation-delay: var(--d, 0s); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .hero .wrap > * { animation: none; }
-  .btn, .card, .contact-item, .faq-item, .faq-item summary::after { transition: none; }
+  .reveal { opacity: 1 !important; animation: none !important; }
+  .btn, .card, .work, .review, .contact-item, .faq-item, .faq-item summary::after { transition: none; }
+  .faq-item::details-content { transition: none; }
 }
 
 @media (max-width: 720px) {
