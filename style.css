@@ -275,22 +275,20 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
 .faq-item p a { color: var(--accent); font-weight: 600; }
 .faq-item p a:hover { color: var(--accent-hover); }
 
-/* mobil ko'rinish: chetdagi tugma + telefon oynasi (faqat keng ekranda; telefonda ma'nosi yo'q) */
+/* mobil ko'rinish: headerdagi tugma (logotip yonida) + telefon oynasi (faqat keng ekranda; telefonda ma'nosi yo'q) */
 .mv-open, .mv { display: none; }
 @media (min-width: 1024px) {
   .mv-open {
-    position: fixed; right: 0; top: 50%; transform: translateY(-50%); z-index: 40;
-    display: flex; flex-direction: column; align-items: center; gap: 10px;
-    padding: 14px 10px; cursor: pointer;
-    background: var(--surface); color: var(--text);
-    border: 1px solid var(--line); border-right: 0; border-radius: 14px 0 0 14px;
-    font: 600 12px/1 "Manrope", system-ui, sans-serif; letter-spacing: .14em; text-transform: uppercase;
+    display: inline-flex; align-items: center; gap: 8px; flex: none;
+    margin-left: 12px; padding: 8px 14px; cursor: pointer;
+    background: transparent; color: var(--muted);
+    border: 1px solid var(--line); border-radius: 999px;
+    font: 600 13px/1 "Manrope", system-ui, sans-serif; white-space: nowrap;
     transition: border-color .2s, color .2s;
   }
-  .mv-open:hover { border-color: var(--accent); color: var(--accent); }
+  .mv-open:hover { border-color: var(--accent); color: var(--text); }
   .mv-open:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  .mv-open svg { width: 18px; height: 18px; }
-  .mv-open span { writing-mode: vertical-rl; }
+  .mv-open svg { width: 16px; height: 16px; }
 
   .mv { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; }
   .mv[hidden] { display: none; }

@@ -42,10 +42,8 @@
     var mv = document.getElementById("mv-modal");
     if (mvOpen && mv && window.self === window.top) {
       var mvFrame = mv.querySelector(".mv-frame");
-      var mvPrev = null;
       var mvShow = function () {
         if (!mvFrame.getAttribute("src")) mvFrame.setAttribute("src", "index.html");
-        mvPrev = document.activeElement;
         mv.hidden = false;
         mv.classList.add("is-open");
         root.classList.add("mv-lock");
@@ -55,7 +53,7 @@
         mv.hidden = true;
         mv.classList.remove("is-open");
         root.classList.remove("mv-lock");
-        if (mvPrev && mvPrev.focus) mvPrev.focus();
+        mvOpen.focus();   // fokus doim ochuvchi tugmaga qaytadi
       };
       mvOpen.addEventListener("click", mvShow);
       mv.addEventListener("click", function (e) { if (e.target.closest("[data-close]")) mvHide(); });

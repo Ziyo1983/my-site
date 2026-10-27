@@ -41,6 +41,11 @@
       <path d="M17 3v13"/>
     </svg>
     <div class="logo-text">REBOOT<small>AUTOTUNING</small></div>
+    <!-- Mobil ko'rinish tugmasi: faqat keng ekranda ko'rinadi, saytni telefon oynasida ochadi -->
+    <button class="mv-open" id="mv-open" type="button" aria-haspopup="dialog" aria-controls="mv-modal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg>
+      <span>Mobil ko'rinish</span>
+    </button>
     <nav class="nav" aria-label="Sayt bo'limlari">
       <a href="#xizmatlar">Xizmatlar</a>
       <a href="#ishlar">Ishlarim</a>
@@ -199,11 +204,7 @@
   </div>
 </footer>
 
-<!-- Mobil ko'rinish: keng ekranda chetdagi tugma saytni telefon oynasida ochadi (iframe birinchi ochilganda yuklanadi) -->
-<button class="mv-open" id="mv-open" type="button" aria-haspopup="dialog" aria-controls="mv-modal">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg>
-  <span>Mobil ko'rinish</span>
-</button>
+<!-- Mobil ko'rinish oynasi: headerdagi tugma ochadi, ichida sayt nusxasi (iframe) birinchi ochilganda yuklanadi -->
 <div class="mv" id="mv-modal" role="dialog" aria-modal="true" aria-label="Saytning mobil ko'rinishi" hidden>
   <div class="mv-backdrop" data-close></div>
   <div class="mv-phone">
