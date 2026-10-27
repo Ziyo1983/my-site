@@ -1,0 +1,35 @@
+# Sirlar — hech qachon GitHub'ga chiqmasin
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets.*
+
+# macOS chiqindilari
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Muharrir va IDE fayllari
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Bog'liqliklar va build natijalari
+node_modules/
+dist/
+build/
+.cache/
+
+# Loglar va vaqtinchalik fayllar
+*.log
+npm-debug.log*
+*.tmp
+*.bak
+
+# Claude Code lokal sozlamalari
+.claude/settings.local.json
