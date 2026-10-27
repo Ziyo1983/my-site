@@ -25,5 +25,24 @@
       try { localStorage.setItem("theme", next); } catch (e) {}
       setTimeout(function () { root.classList.remove("theme-anim"); }, 400);
     });
+
+    // Menyu: ekrandagi bo'limga mos havolani urg'u rangida ko'rsatish
+    var links = document.querySelectorAll(".nav a[href^='#']");
+    if (links.length && "IntersectionObserver" in window) {
+      var byId = {};
+      links.forEach(function (a) { byId[a.getAttribute("href").slice(1)] = a; });
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          links.forEach(function (a) { a.classList.remove("is-active"); });
+          var link = byId[e.target.id];
+          if (link) link.classList.add("is-active");
+        });
+      }, { rootMargin: "-35% 0px -60% 0px" });
+      Object.keys(byId).forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) io.observe(el);
+      });
+    }
   });
 })();

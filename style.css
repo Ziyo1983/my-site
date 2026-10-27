@@ -9,6 +9,8 @@
   --accent-hover: #ff6246;
   --on-accent: #0b0b0c;
   --glow: rgba(255,74,43,.16);
+  --header-bg: rgba(11,11,12,.8);
+  --on-photo-muted: rgba(242,242,240,.74);
   --ph-a: #1a1a1d;
   --ph-b: #0f0f11;
 }
@@ -23,6 +25,8 @@
   --accent-hover: #bf2b13;
   --on-accent: #ffffff;
   --glow: rgba(217,52,26,.10);
+  --header-bg: rgba(244,243,240,.82);
+  --on-photo-muted: rgba(242,242,240,.74);
   --ph-a: #e9e7e2;
   --ph-b: #d9d6cf;
 }
@@ -53,9 +57,30 @@ body::before {
 
 .wrap { max-width: 960px; margin: 0 auto; padding: 0 24px; }
 
-/* header */
-header { padding: 28px 0; }
+/* header — scroll qilganda tepada yopishib turadi */
+header {
+  position: sticky; top: 0; z-index: 50;
+  padding: 14px 0;
+  background: var(--header-bg);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
 header .wrap { display: flex; align-items: center; gap: 12px; }
+
+/* menyu */
+.nav { margin-left: auto; display: flex; align-items: center; gap: 4px; }
+.nav a {
+  font-size: 14px; font-weight: 600; color: var(--muted);
+  padding: 8px 12px; border-radius: 999px; white-space: nowrap;
+  transition: color .2s, background .2s;
+}
+.nav a:hover { color: var(--text); }
+.nav a.is-active { color: var(--accent); }
+.nav a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.nav + .theme-toggle { margin-left: 8px; }
+
+/* bo'limga o'tganda sarlavha menyu ostida qolib ketmasin */
+section[id] { scroll-margin-top: 72px; }
 .logo-mark { width: 34px; height: 34px; flex: none; color: var(--accent); }
 .logo-text { font-weight: 800; letter-spacing: .18em; font-size: 15px; }
 .logo-text small {
@@ -173,7 +198,7 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
   position: relative; aspect-ratio: 4 / 5; overflow: hidden;
   border-radius: 18px; border: 1px solid var(--line);
   background:
-    linear-gradient(to top, rgba(11,11,12,.9) 0%, rgba(11,11,12,0) 55%),
+    linear-gradient(to top, rgba(11,11,12,.92) 0%, rgba(11,11,12,0) 68%),
     var(--img) center / cover no-repeat,
     linear-gradient(160deg, var(--ph-a), var(--ph-b));
   transition: border-color .25s, transform .25s;
@@ -182,6 +207,13 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
 .work figcaption { position: absolute; left: 24px; right: 24px; bottom: 22px; display: flex; flex-direction: column; gap: 2px; }
 .work figcaption span { font-size: 12px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: #ff6246; }
 .work figcaption strong { font-size: 18px; font-weight: 600; color: #f2f2f0; }
+.work figcaption p { margin-top: 6px; font-size: 14px; line-height: 1.5; color: var(--on-photo-muted); }
+
+/* "namuna" belgisi — haqiqiy ma'lumot bilan almashtirilguncha ko'rinib turadi */
+.label .tag {
+  margin-left: 10px; padding: 2px 8px; border: 1px solid var(--line); border-radius: 999px;
+  font-size: 10px; font-weight: 600; letter-spacing: .16em; vertical-align: 1px;
+}
 
 /* reviews */
 .reviews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
@@ -195,6 +227,29 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
 .review footer { display: flex; flex-direction: column; padding: 0; border: 0; color: var(--text); font-size: 14px; }
 .review footer span { color: var(--muted); font-size: 13px; }
 
+/* faq */
+.faq { display: grid; gap: 12px; max-width: 720px; }
+.faq-item {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 18px; transition: border-color .25s;
+}
+.faq-item:hover, .faq-item[open] { border-color: var(--accent); }
+.faq-item summary {
+  list-style: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 22px 28px; font-size: 17px; font-weight: 600;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after {
+  content: "+"; flex: none; font-size: 24px; line-height: 1; font-weight: 500;
+  color: var(--accent); transition: transform .25s;
+}
+.faq-item[open] summary::after { transform: rotate(45deg); }
+.faq-item summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: 18px; }
+.faq-item p { padding: 0 28px 24px; color: var(--muted); font-size: 15px; max-width: 60ch; }
+.faq-item p a { color: var(--accent); font-weight: 600; }
+.faq-item p a:hover { color: var(--accent-hover); }
+
 /* light theme: soften the dark photo into the light page */
 :root[data-theme="light"] .car-photo { opacity: .32; mix-blend-mode: multiply; filter: brightness(1.6) contrast(1.1); }
 
@@ -207,10 +262,20 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .hero .wrap > * { animation: none; }
-  .btn, .card, .contact-item { transition: none; }
+  .btn, .card, .contact-item, .faq-item, .faq-item summary::after { transition: none; }
 }
 
 @media (max-width: 720px) {
+  header { padding: 10px 0 6px; }
+  header .wrap { flex-wrap: wrap; row-gap: 4px; }
+  .theme-toggle, .nav + .theme-toggle { margin-left: auto; }
+  /* menyu logotip ostida alohida qator, gorizontal siljiydi */
+  .nav {
+    order: 3; flex: 0 0 100%; margin: 0 -8px; padding: 0 8px;
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .nav::-webkit-scrollbar { display: none; }
+  section[id] { scroll-margin-top: 108px; }
   .hero { padding: 40px 0 150px; }
   .car-photo { background-position: 30% 55%; opacity: .7; }
   :root[data-theme="light"] .car-photo { opacity: .28; }

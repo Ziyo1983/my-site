@@ -33,3 +33,4 @@ npm-debug.log*
 
 # Claude Code lokal sozlamalari
 .claude/settings.local.json
+.claude/launch.json
