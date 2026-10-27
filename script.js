@@ -47,7 +47,15 @@
     }
 
     // Menyu: ekrandagi bo'limga mos havolani urg'u rangida ko'rsatish
+    var nav = document.querySelector(".nav");
     var links = document.querySelectorAll(".nav a[href^='#']");
+    if (nav) {
+      // qator oxiriga yetganda o'ng chetdagi xiralik yo'qoladi
+      var edge = function () { nav.classList.toggle("nav-end", nav.scrollLeft + nav.clientWidth >= nav.scrollWidth - 2); };
+      nav.addEventListener("scroll", edge, { passive: true });
+      window.addEventListener("resize", edge);
+      edge();
+    }
     if (links.length && "IntersectionObserver" in window) {
       var byId = {};
       links.forEach(function (a) { byId[a.getAttribute("href").slice(1)] = a; });
@@ -56,7 +64,12 @@
           if (!e.isIntersecting) return;
           links.forEach(function (a) { a.classList.remove("is-active"); });
           var link = byId[e.target.id];
-          if (link) link.classList.add("is-active");
+          if (link) {
+            link.classList.add("is-active");
+            // Telefonda menyu qatori siljiydi: joriy havola doim ko'rinadigan bo'lsin
+            var nr = nav.getBoundingClientRect(), lr = link.getBoundingClientRect();
+            nav.scrollTo({ left: nav.scrollLeft + (lr.left - nr.left) - (nr.width - lr.width) / 2, behavior: reveal ? "smooth" : "auto" });
+          }
         });
       }, { rootMargin: "-35% 0px -60% 0px" });
       Object.keys(byId).forEach(function (id) {

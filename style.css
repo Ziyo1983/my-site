@@ -92,7 +92,7 @@ section[id] { scroll-margin-top: 72px; }
 .logo-text { font-weight: 800; letter-spacing: .18em; font-size: 15px; }
 .logo-text small {
   display: block; font-weight: 500; letter-spacing: .22em;
-  font-size: 9px; color: var(--muted); margin-top: 1px;
+  font-size: 10px; color: var(--muted); margin-top: 1px;
 }
 
 /* theme toggle */
@@ -219,7 +219,7 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
 /* "namuna" belgisi — haqiqiy ma'lumot bilan almashtirilguncha ko'rinib turadi */
 .label .tag {
   margin-left: 10px; padding: 2px 8px; border: 1px solid var(--line); border-radius: 999px;
-  font-size: 10px; font-weight: 600; letter-spacing: .16em; vertical-align: 1px;
+  font-size: 11px; font-weight: 600; letter-spacing: .16em; vertical-align: 1px;
 }
 
 /* reviews */
@@ -295,16 +295,22 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
 }
 
 @media (max-width: 720px) {
-  header { padding: 10px 0 6px; }
-  header .wrap { flex-wrap: wrap; row-gap: 4px; }
-  .theme-toggle, .nav + .theme-toggle { margin-left: auto; }
-  /* menyu logotip ostida alohida qator, gorizontal siljiydi */
+  header { padding: 8px 0 2px; }
+  header .wrap { flex-wrap: wrap; row-gap: 0; }
+  .logo-mark { width: 30px; height: 30px; }
+  .theme-toggle, .nav + .theme-toggle { margin-left: auto; width: 36px; height: 36px; }
+  .theme-toggle svg { width: 16px; height: 16px; }
+  /* menyu logotip ostida alohida qator, gorizontal siljiydi; o'ng chetdagi xiralik "yana bor" deb bildiradi */
   .nav {
     order: 3; flex: 0 0 100%; margin: 0 -8px; padding: 0 8px;
     overflow-x: auto; scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
+    mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
   }
+  .nav.nav-end { -webkit-mask-image: none; mask-image: none; }
   .nav::-webkit-scrollbar { display: none; }
-  section[id] { scroll-margin-top: 108px; }
+  .nav a { padding: 10px 12px; }
+  section[id] { scroll-margin-top: 96px; }
   .hero { padding: 40px 0 150px; }
   .car-photo { background-position: 30% 55%; opacity: .7; }
   :root[data-theme="light"] .car-photo { opacity: .28; }
